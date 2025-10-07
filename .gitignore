@@ -67,4 +67,4 @@ coverage.xml
 
 #slingshot
 .slingshot/
-.slingshot-plugins/
+.slingshot/*
