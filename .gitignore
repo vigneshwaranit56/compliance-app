@@ -56,7 +56,6 @@ coverage.xml
 .python-version
 
 
-
 # VS Code
 .vscode/
 
@@ -65,3 +64,7 @@ coverage.xml
 
 # Docker
 *.pid
+
+#slingshot
+.slingshot/
+.slingshot-plugins/
