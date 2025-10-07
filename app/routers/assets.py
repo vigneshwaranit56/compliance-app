@@ -1,10 +1,11 @@
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException
-from typing import List
+from typing import List, Optional
 from .. import storage1 as storage
 from ..models import ValidationRecord, ComplianceDocumentUpload
 from uuid import uuid4
-from datetime import date
+from datetime import datetime
 import json
+import base64
 
 router = APIRouter()
 
@@ -14,7 +15,7 @@ router = APIRouter()
 async def create_project_and_upload(
     projectName: str,
     orgId: str = Form(..., description="Organization ID"),
-    files: List[UploadFile] = File(...),
+    file: Optional[UploadFile] = File(...),
     validationMode: str = Form(..., description="Validation mode"),
     monitoringEnabled: bool = Form(False, description="Monitoring enabled"),
     links: List[str] = Form(["www.google.com"], description="Links associated with the project"),
@@ -38,26 +39,30 @@ async def create_project_and_upload(
             "error": "Invalid guardrails format",
             "details": str(e)
         }
+    lastChecked = datetime.now()
+    file_bytes = await file.read() if file else None
+    encoded_file = base64.b64encode(file_bytes).decode("utf-8") if file_bytes else None
 
-    for f in files:
-        rec = ValidationRecord(
-            orgId=orgId,
-            assetName=f.filename,
-            type="file",
-            status="Pending",
-            lastChecked=None,
-            nextCheck=None,
-            complianceDocuments=[],
-            validationMode=validationMode,
-            monitoringEnabled=monitoringEnabled,
-            links=links,
-            guardrails=guardrails_models
-        )
-        storage.create_validation(projectName, rec.dict())
+
+    
+    rec = ValidationRecord(
+        orgId=orgId,
+        assetName=file.filename,
+        type="file",
+        status="Pending",
+        lastChecked=lastChecked,
+        nextCheck=None,
+        complianceDocuments=[],
+        validationMode=validationMode,
+        monitoringEnabled=monitoringEnabled,
+        links=links,
+        guardrails=guardrails_models,
+        file=encoded_file
+    )
+    storage.create_validation(projectName, rec.dict())
 
     return {
         "message": "Uploaded",
         "project": projectName,
-        "fileCount": len(files)
     }
 

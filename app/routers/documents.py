@@ -4,6 +4,7 @@ from ..models import ComplianceDocument, ComplianceDocumentUpload
 from .. import storage1 as storage
 from uuid import uuid4
 from datetime import datetime
+import base64
 
 
 router = APIRouter()
@@ -22,9 +23,11 @@ async def upload_document(
     image: Optional[UploadFile] = File(None),
     file: Optional[UploadFile] = File(None)
 ):
-    # if storage.get_org(orgId) is None:
-    #     raise HTTPException(status_code=404, detail="Organization not found")
+    if storage.get_org(orgId) is None:
+        raise HTTPException(status_code=404, detail="Organization not found")
 
+    file_bytes = await file.read() if file else None
+    encoded_file = base64.b64encode(file_bytes).decode("utf-8") if file_bytes else None
 
     doc_id = str(uuid4())
     d = ComplianceDocument(
@@ -34,7 +37,9 @@ async def upload_document(
         description=description,
         date=datetime.today(),
         version=version,
-        status="Uploaded"
+        status="Uploaded",
+        file= encoded_file
     )
+
     storage.add_document(orgId, d.dict())
     return d

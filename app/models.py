@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional
 from datetime import datetime, date
+    
 
 class ComplianceDocument(BaseModel):
     id: Optional[str]
@@ -10,6 +11,7 @@ class ComplianceDocument(BaseModel):
     date: Optional[datetime]
     status: Optional[str]
     version: Optional[str]
+    file: Optional[bytes]
 
 
 class ComplianceDocumentUpload(BaseModel):
@@ -23,24 +25,30 @@ class ValidationRecord(BaseModel):
     assetName: str
     type: str
     status: str
-    lastChecked: Optional[str] = None
-    nextCheck: Optional[str] = None
+    lastChecked: Optional[datetime]
+    nextCheck: Optional[datetime] 
     complianceDocuments: List[ComplianceDocumentUpload]
     validationMode: str
     monitoringEnabled: bool
     links: List[str]
     guardrails: List[ComplianceDocumentUpload]
+    file: Optional[bytes]
+
 
 class OrganizationBase(BaseModel):
-    name: str
-    address: Optional[str]
+    name: Optional[str]
+    industry: Optional[str]
+    complianceOfficer: Optional[str]
+    lastAudit: Optional[datetime]
 
 class OrganizationCreate(OrganizationBase):
     pass
 
 class OrganizationUpdate(BaseModel):
     name: Optional[str]
-    address: Optional[str]
+    industry: Optional[str]
+    complianceOfficer: Optional[str]
+    lastAudit: Optional[datetime]
 
 class Organization(OrganizationBase):
     id: str

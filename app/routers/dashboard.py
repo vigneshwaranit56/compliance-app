@@ -10,45 +10,7 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
-# @router.get("/dashboard", response_model=DashboardResponse)
-# def get_dashboard(
-#     org_id:
-#     search: Optional[str] = Query(None, description="Search term for filtering"),
-#     status: Optional[str] = Query(None, description="Filter by status"),
-#     document: Optional[str] = Query(None, description="Filter by document"),
-#     page: int = Query(1, description="Page number"),
-#     pageSize: int = Query(20, description="Number of records per page")
-# ):
-#     orgs = storage.list_orgs()
-#     total_docs = sum(len(storage.list_documents(o["id"])) for o in orgs)
-#     all_validations = storage.list_validations()
 
-#     # Filter validations based on query parameters
-#     if status:
-#         all_validations = [v for v in all_validations if v.get("status") == status]
-#     if document:
-#         all_validations = [v for v in all_validations if document in v.get("complianceDocuments", [])]
-
-#     # Pagination logic
-#     start = (page - 1) * pageSize
-#     end = start + pageSize
-#     paginated_validations = all_validations[start:end]
-
-#     response = {
-#         "totalAssets": total_docs,
-#         "compliant": sum(1 for v in all_validations if v.get("status") == "Compliant"),
-#         "violations": sum(1 for v in all_validations if v.get("status") == "Violations"),
-#         "pending": sum(1 for v in all_validations if v.get("status") == "Pending"),
-#         "page": page,
-#         "pageSize": pageSize,
-#         "totalRecords": len(all_validations),
-#         "validationHistory": paginated_validations
-#     }
-
-#     # Log the response
-#     logger.info("Dashboard response: %s", response)
-
-#     return response
 @router.get("/dashboard", response_model=DashboardResponse)
 def get_dashboard(
     orgId: str = Query(..., description="Organization ID"),
@@ -96,39 +58,42 @@ def get_dashboard(
     logger.info("Dashboard response: %s", response)
     return response
 
-@router.get("/organizations/{orgId}/dashboard", response_model=OrgDashboardResponse)
-def get_org_dashboard(orgId: str):
-    org = storage.get_org(orgId)
-    if not org:
-        raise HTTPException(status_code=404, detail="Organization not found")
+@router.get("/organizations/{orgId}/dashboard")
+def get_dashboard_data(orgId):
+    # Fetch documents for the organization
     docs = storage.list_documents(orgId)
-    vals = []
-    # Fetch all validations for this org from MongoDB
+    total_documents = len(docs)
+
+    # Fetch all validations for this organization
     all_validations = storage.list_validations(orgId)
-    doc_ids = {d.get("id") for d in docs}
-    for v in all_validations:
-        # v["complianceDocuments"] could be a list of document IDs or objects
-        compliance_docs = v.get("complianceDocuments", [])
-        # If compliance_docs is a list of dicts, extract their IDs
-        if compliance_docs and isinstance(compliance_docs[0], dict):
-            compliance_doc_ids = {doc.get("id") for doc in compliance_docs}
-        else:
-            compliance_doc_ids = set(compliance_docs)
-        if doc_ids & compliance_doc_ids:
-            vals.append(v)
-    return OrgDashboardResponse(organizationId=orgId, documents=docs, validations=vals)
-# @router.get("/organizations/{orgId}/dashboard", response_model=OrgDashboardResponse)
-# def get_org_dashboard(orgId: str):
-#     org = storage.get_org(orgId)
-#     if not org:
-#         raise HTTPException(status_code=404, detail="Organization not found")
-#     docs = storage.list_documents(orgId)
-#     vals = []
-#     for project, recs in storage.VALIDATIONS.items():
-#         for r in recs:
-#             if r.get("complianceDocuments"):
-#                 for d in docs:
-#                     if d.get("id") in r.get("complianceDocuments", []):
-#                         vals.append(r)
-#                         break
-#     return OrgDashboardResponse(organizationId=orgId, documents=docs, validations=vals)
+    total_validations = len(all_validations)
+
+    # Fetch organization details
+    organization_details = storage.get_org(orgId)  # Assuming this method exists
+
+    # Extract compliance information from documents
+    compliance_info = docs
+
+    # Calculate active users (assuming a method exists to fetch this data)
+    active_users = 4  # Placeholder for actual logic to fetch active users
+
+        # Extract last checked date from validations
+    valid_dates = [v.get("lastChecked") for v in all_validations if v.get("lastChecked")]
+    last_updated = max(valid_dates) if valid_dates else None
+
+    return {
+        "utilizationMetrics": {
+            "totalDocuments": total_documents,
+            "activeUsers": active_users,
+            "totalValidations": total_validations,
+            "lastUpdated": last_updated
+        },
+        "organizationDetails": {
+            "orgName": organization_details.get("name", "N/A"),  # CHANGE: Use .get() to safely access dictionary keys
+            "industry": organization_details.get("industry", "N/A"),  # CHANGE: Provide default value
+            "complianceOfficer": organization_details.get("complianceOfficer", "N/A"),  # CHANGE: Provide default value
+            "lastAudit": organization_details.get("lastAudit", "N/A"),  # CHANGE: Provide default value
+            "complianceFrameworks": compliance_info if compliance_info else []  # CHANGE: Ensure compliance_info is a list
+        }
+    }
+
