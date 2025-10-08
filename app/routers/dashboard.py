@@ -24,15 +24,13 @@ def get_dashboard(
     if not org:
         raise HTTPException(status_code=404, detail="Organization not found")
 
-    docs = storage.list_documents(orgId)
-    total_docs = len(docs)
-    all_validations = storage.list_validations(orgId)
+    
+    all_validations = storage.list_validations(orgId,document)
+    total_docs = len(all_validations)
 
     # Filter validations based on query parameters
     if status:
         all_validations = [v for v in all_validations if v.get("status") == status]
-    if document:
-        all_validations = [v for v in all_validations if document in v.get("complianceDocuments", [])]
     if search:
         all_validations = [
             v for v in all_validations
@@ -61,7 +59,7 @@ def get_dashboard(
 @router.get("/organizations/{orgId}/dashboard")
 def get_dashboard_data(orgId):
     # Fetch documents for the organization
-    docs = storage.list_documents(orgId)
+    docs = storage.list_documents_skip_file(orgId)
     total_documents = len(docs)
 
     # Fetch all validations for this organization

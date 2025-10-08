@@ -39,11 +39,12 @@ def create_validation(project_name, record: dict):
     VALIDATIONS.setdefault(project_name, []).append(record)
     return record
 
-def list_validations(project_name=None):
-    if project_name:
-        return VALIDATIONS.get(project_name, [])
-    # flatten all
-    out = []
-    for k,v in VALIDATIONS.items():
-        out += v
-    return out
+def list_validations(org_id=None):
+    # Filter validations by orgId
+    filtered_validations = []
+    for project_name, records in VALIDATIONS.items():
+        for record in records:
+            if record.get('orgId') == org_id:
+                filtered_validations.append(record)
+    
+    return filtered_validations

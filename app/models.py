@@ -1,5 +1,5 @@
-from pydantic import BaseModel, Field
-from typing import List, Optional
+from pydantic import BaseModel, Field, Json
+from typing import List, Optional, Dict, Any
 from datetime import datetime, date
     
 
@@ -27,12 +27,13 @@ class ValidationRecord(BaseModel):
     status: str
     lastChecked: Optional[datetime]
     nextCheck: Optional[datetime] 
-    complianceDocuments: List[ComplianceDocumentUpload]
+    complianceDocuments: Optional[str]
     validationMode: str
     monitoringEnabled: bool
     links: List[str]
-    guardrails: List[ComplianceDocumentUpload]
     file: Optional[bytes]
+    validationResults: Dict[str, Any] # CHANGE: Added field for JSON object
+
 
 
 class OrganizationBase(BaseModel):

@@ -54,6 +54,15 @@ def add_document(org_id, doc: dict):
     documents_collection.insert_one(doc)  # CHANGE: Insert into MongoDB
     return doc
 
+def get_document_by_id(doc_id: str):
+    # Retrieve the document from the collection using the 'id' field
+    document = documents_collection.find_one({"id": doc_id})
+
+    if document is None:
+        raise HTTPException(status_code=404, detail="Document not found")
+
+    return document
+
 def list_documents(org_id):
     return list(documents_collection.find({"orgId": org_id}, {"_id": 0}))  # CHANGE: Query MongoDB
 
@@ -62,7 +71,17 @@ def create_validation(project_name, record: dict):
     validations_collection.insert_one(record)  # CHANGE: Insert into MongoDB
     return record
 
-def list_validations(project_name=None):
-    if project_name:
-        return list(validations_collection.find({"projectName": project_name}, {"_id": 0}))  # CHANGE: Query MongoDB
-    return list(validations_collection.find({}, {"_id": 0}))  # CHANGE: Query MongoDB
+def list_validations(org_id: str = None, doc_id: str = None):
+    # Build the query based on provided parameters
+    query = {}
+    if org_id:
+        query["orgId"] = org_id
+    if doc_id is not None:  # Ensure doc_id is considered only if not None
+        query["docId"] = doc_id
+
+    # Query MongoDB for validations with the given orgId and docId
+    return list(validations_collection.find(query, {"_id": 0}))
+
+def list_documents_skip_file(org_id: str):
+    # Query MongoDB for documents with the given orgId, excluding the 'file' field
+    return list(documents_collection.find({"orgId": org_id}, {"_id": 0, "file": 0}))

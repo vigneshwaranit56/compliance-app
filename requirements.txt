@@ -2,5 +2,11 @@ fastapi
 uvicorn[standard]
 python-multipart
 pydantic
-python-dotenv
 pymongo
+python-dotenv
+pandas 
+scikit-learn 
+numpy
+PyPDF2
+chromadb
+sentence-transformers

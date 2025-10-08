@@ -11,7 +11,10 @@ router = APIRouter()
 
 @router.get("", response_model=List[ComplianceDocument])
 def list_documents(orgId: str):
-    return storage.list_documents(orgId)
+    documents = storage.list_documents_skip_file(orgId)
+    for doc in documents:
+        doc['file'] = None  # Set 'file' to None if it is not included in the response
+    return documents
 
 
 @router.post("", response_model=ComplianceDocument, status_code=201)
