@@ -2,7 +2,63 @@
   "Row_1": {
     "1": {
       "Row #": 1,
-      "Rule Violated": "Direct identifiers present",
+      "Rule Violated": "Direct Identifier Present",
+      "Compliance Reference": "HIPAA \u00a7164.514",
+      "Flagged Column": "patient_name",
+      "Recommended Action": "Remove or de-identify the patient's name.",
+      "Confidence Score": 0.95,
+      "Risk Score": 6
+    },
+    "2": {
+      "Row #": 1,
+      "Rule Violated": "Direct Identifier Present",
+      "Compliance Reference": "HIPAA \u00a7164.514",
+      "Flagged Column": "dob",
+      "Recommended Action": "Remove or de-identify the date of birth.",
+      "Confidence Score": 0.95,
+      "Risk Score": 6
+    },
+    "3": {
+      "Row #": 1,
+      "Rule Violated": "Direct Identifier Present",
+      "Compliance Reference": "HIPAA \u00a7164.514",
+      "Flagged Column": "ssn",
+      "Recommended Action": "Remove or de-identify the social security number.",
+      "Confidence Score": 0.95,
+      "Risk Score": 6
+    },
+    "4": {
+      "Row #": 1,
+      "Rule Violated": "Direct Identifier Present",
+      "Compliance Reference": "HIPAA \u00a7164.514",
+      "Flagged Column": "contact_email",
+      "Recommended Action": "Remove or de-identify the contact email.",
+      "Confidence Score": 0.95,
+      "Risk Score": 6
+    },
+    "5": {
+      "Row #": 1,
+      "Rule Violated": "Direct Identifier Present",
+      "Compliance Reference": "HIPAA \u00a7164.514",
+      "Flagged Column": "contact_phone",
+      "Recommended Action": "Remove or de-identify the contact phone number.",
+      "Confidence Score": 0.95,
+      "Risk Score": 6
+    },
+    "6": {
+      "Row #": 1,
+      "Rule Violated": "Direct Identifier Present",
+      "Compliance Reference": "HIPAA \u00a7164.514",
+      "Flagged Column": "notes",
+      "Recommended Action": "Remove or de-identify the patient's name and visit date in the notes.",
+      "Confidence Score": 0.95,
+      "Risk Score": 6
+    }
+  },
+  "Row_2": {
+    "1": {
+      "Row #": 2,
+      "Rule Violated": "Direct Identifier Present",
       "Compliance Reference": "HIPAA \u00a7164.514",
       "Flagged Column": "patient_name",
       "Recommended Action": "Remove or de-identify the patient's name",
@@ -10,17 +66,17 @@
       "Risk Score": 6
     },
     "2": {
-      "Row #": 1,
-      "Rule Violated": "Direct identifiers present",
+      "Row #": 2,
+      "Rule Violated": "Direct Identifier Present",
       "Compliance Reference": "HIPAA \u00a7164.514",
       "Flagged Column": "dob",
       "Recommended Action": "Remove or de-identify the date of birth",
       "Confidence Score": 0.95,
-      "Risk Score": 6
+      "Risk Score": 5
     },
     "3": {
-      "Row #": 1,
-      "Rule Violated": "Direct identifiers present",
+      "Row #": 2,
+      "Rule Violated": "Direct Identifier Present",
       "Compliance Reference": "HIPAA \u00a7164.514",
       "Flagged Column": "ssn",
       "Recommended Action": "Remove or de-identify the social security number",
@@ -28,36 +84,82 @@
       "Risk Score": 6
     },
     "4": {
-      "Row #": 1,
-      "Rule Violated": "Direct identifiers present",
+      "Row #": 2,
+      "Rule Violated": "Direct Identifier Present",
       "Compliance Reference": "HIPAA \u00a7164.514",
       "Flagged Column": "contact_email",
       "Recommended Action": "Remove or de-identify the email address",
       "Confidence Score": 0.95,
-      "Risk Score": 6
+      "Risk Score": 5
     },
     "5": {
-      "Row #": 1,
-      "Rule Violated": "Direct identifiers present",
+      "Row #": 2,
+      "Rule Violated": "Direct Identifier Present",
       "Compliance Reference": "HIPAA \u00a7164.514",
       "Flagged Column": "contact_phone",
       "Recommended Action": "Remove or de-identify the phone number",
       "Confidence Score": 0.95,
-      "Risk Score": 6
+      "Risk Score": 5
     },
     "6": {
-      "Row #": 1,
-      "Rule Violated": "Direct identifiers present",
+      "Row #": 2,
+      "Rule Violated": "Direct Identifier Present",
       "Compliance Reference": "HIPAA \u00a7164.514",
       "Flagged Column": "notes",
-      "Recommended Action": "Remove or de-identify the patient's name and specific visit date",
-      "Confidence Score": 0.95,
-      "Risk Score": 6
+      "Recommended Action": "Remove or de-identify any direct identifiers in the notes",
+      "Confidence Score": 0.9,
+      "Risk Score": 4
     }
   },
-  "Row_2": null,
-  "Row_3": null,
-  "Row_4": {},
+  "Row_3": {
+    "1": {
+      "Row #": 3,
+      "Rule Violated": "Direct Identifier Present",
+      "Compliance Reference": "HIPAA \u00a7164.514",
+      "Flagged Column": "patient_name",
+      "Recommended Action": "Remove or de-identify the patient's name.",
+      "Confidence Score": 0.95,
+      "Risk Score": 6
+    },
+    "2": {
+      "Row #": 3,
+      "Rule Violated": "Direct Identifier Present",
+      "Compliance Reference": "HIPAA \u00a7164.514",
+      "Flagged Column": "dob",
+      "Recommended Action": "Remove or de-identify the date of birth.",
+      "Confidence Score": 0.95,
+      "Risk Score": 5
+    },
+    "3": {
+      "Row #": 3,
+      "Rule Violated": "Direct Identifier Present",
+      "Compliance Reference": "HIPAA \u00a7164.514",
+      "Flagged Column": "contact_email",
+      "Recommended Action": "Remove or de-identify the contact email.",
+      "Confidence Score": 0.95,
+      "Risk Score": 6
+    },
+    "4": {
+      "Row #": 3,
+      "Rule Violated": "Direct Identifier Present",
+      "Compliance Reference": "HIPAA \u00a7164.514",
+      "Flagged Column": "notes",
+      "Recommended Action": "Remove or de-identify the phone number.",
+      "Confidence Score": 0.95,
+      "Risk Score": 5
+    }
+  },
+  "Row_4": {
+    "1": {
+      "Row #": 4,
+      "Rule Violated": "No violation detected",
+      "Compliance Reference": "HIPAA \u00a7164.514",
+      "Flagged Column": "notes",
+      "Recommended Action": "No action needed",
+      "Confidence Score": 1.0,
+      "Risk Score": 1
+    }
+  },
   "Row_5": {
     "1": {
       "Row #": 5,
@@ -75,7 +177,7 @@
       "Flagged Column": "dob",
       "Recommended Action": "Remove or de-identify the date of birth.",
       "Confidence Score": 0.95,
-      "Risk Score": 6
+      "Risk Score": 5
     },
     "3": {
       "Row #": 5,
@@ -93,7 +195,7 @@
       "Flagged Column": "contact_email",
       "Recommended Action": "Remove or de-identify the contact email.",
       "Confidence Score": 0.95,
-      "Risk Score": 6
+      "Risk Score": 5
     },
     "5": {
       "Row #": 5,
@@ -102,7 +204,7 @@
       "Flagged Column": "contact_phone",
       "Recommended Action": "Remove or de-identify the contact phone number.",
       "Confidence Score": 0.95,
-      "Risk Score": 6
+      "Risk Score": 5
     },
     "6": {
       "Row #": 5,
@@ -110,8 +212,8 @@
       "Compliance Reference": "HIPAA \u00a7164.514",
       "Flagged Column": "notes",
       "Recommended Action": "Remove or de-identify the vehicle license number.",
-      "Confidence Score": 0.95,
-      "Risk Score": 6
+      "Confidence Score": 0.9,
+      "Risk Score": 4
     }
   }
 }

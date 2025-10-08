@@ -90,7 +90,6 @@ def validate_csv(api, csv_path, output_path="compliance_validation_results.json"
 You are a data compliance validator.
 Given a single row from a medical diagnosis CSV file, validate each column against HIPAA compliance rules.
 Identify any violations related to direct or indirect identifiers and return your findings in structured JSON format.
-If a row is compliant, exclude it from the output. If all rows are compliant, return an empty JSON object.
 
 Output Format (strictly follow this structure):
 {
@@ -101,7 +100,7 @@ Output Format (strictly follow this structure):
     "Flagged Column": "<column_name>",
     "Recommended Action": "<action to take>",
     "Confidence Score": <confidence score>,
-    "Risk Score": <risk score 0-6>
+    "Risk Score": <risk score 1-6>
   }
 }
 """
