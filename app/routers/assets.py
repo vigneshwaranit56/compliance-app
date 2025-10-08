@@ -59,9 +59,19 @@ async def create_project_and_upload(
         validation_results_json = validate_file(compliance_file_path, input_file_path)
         validation_results_dict = json.loads(validation_results_json)  # Parse JSON string to dict
         # validation_results = list(validation_results_dict.values())  # Convert dict to list
+        validation_results_dict = json.loads(validation_results_json)
 
+        any_violations = False
+
+        for violations in validation_results_dict.values():
+            violated_count = sum(1 for v in violations.values() if v.get("Rule Violated") != "No violation detected")
+            if violated_count > 1:  # More than 1 violation means overall violation
+                any_violations = True
+                break
+
+        status = "Violations" if any_violations else "Compliant"
     except Exception as e:
-        status="failed"
+        status="Failed"
         raise HTTPException(status_code=500, detail=f"Validation failed: {str(e)}")
 
     finally:
